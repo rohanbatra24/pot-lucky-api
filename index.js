@@ -3,6 +3,7 @@ const app = express();
 const port = 3001;
 
 const users = require('./users');
+const pantries = require('./pantries');
 
 app.use(express.json());
 app.use(function(req, res, next) {
@@ -13,8 +14,8 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', (req, res) => {
-	users
-		.getUsers()
+	pantries
+		.getPantries(1)
 		.then((response) => {
 			res.status(200).send(response);
 		})
