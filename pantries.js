@@ -32,6 +32,53 @@ const getPantries = () => {
 	});
 };
 
+// Add a new item to the pantry
+function addItemToPantry(item) {
+	console.log("item ===> ", item)
+  const params = [
+		1,
+		item.name,
+    item.quantity,
+		item.unit,
+		item.expiry
+  ];
+
+  const queryString = `
+    INSERT INTO pantries
+    (user_id, name, quantity, unit, expiry)
+    VALUES ($1, $2, $3, $4, $5);
+  `;
+
+  return pool
+    .query(queryString, params)
+    // .then(res => {
+		// 	console.log("after insert  ====> ", res.rows)
+		// 	return res.rows[0]})
+    .catch(err => console.log('Error adding item to pantry!', err));
+};
+
+// Remove an item from the pantry
+function removeItemFromPantry(item) {
+  const params = [
+    item.id,
+    item.user_id
+  ];
+
+  const queryString = `
+    DELETE
+    FROM pantries
+    WHERE id = $1
+    AND user_id = $2
+  `;
+
+  return pool
+    .query(queryString, params)
+    .then(res => res)
+    .catch(err => console.log('Error removing item from pantry!', err));
+};
+
+
 module.exports = {
-	getPantries
+	getPantries,
+	addItemToPantry
 };
