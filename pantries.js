@@ -46,14 +46,15 @@ function addItemToPantry(item) {
   const queryString = `
     INSERT INTO pantries
     (user_id, name, quantity, unit, expiry)
-    VALUES ($1, $2, $3, $4, $5);
+		VALUES ($1, $2, $3, $4, $5)
+		RETURNING *;
   `;
 
   return pool
     .query(queryString, params)
-    // .then(res => {
-		// 	console.log("after insert  ====> ", res.rows)
-		// 	return res.rows[0]})
+    .then(res => {
+			return res.rows[0]
+		})
     .catch(err => console.log('Error adding item to pantry!', err));
 };
 
