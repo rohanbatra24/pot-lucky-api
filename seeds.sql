@@ -32,12 +32,16 @@ CREATE TABLE saved_recipes (
   created_at DATE 
 );
 
--- CREATE TABLE ingredients (
---   id SERIAL PRIMARY KEY NOT NULL,
---   spoonacular_id INTEGER UNIQUE NOT NULL,
---   name VARCHAR(255) NOT NULL
--- );
+CREATE TABLE ingredients (
+  name VARCHAR(255) NOT NULL,
+  spoonacular_id INTEGER UNIQUE NOT NULL
+);
 
+COPY ingredients
+FROM '/vagrant/final/pot-lucky-api/top_1k_ingredients.csv'
+DELIMITER ';';
+
+ALTER SEQUENCE ingredients_id_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE pantries_id_seq RESTART WITH 1;
 ALTER SEQUENCE allergies_id_seq RESTART WITH 1;
