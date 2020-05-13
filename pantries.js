@@ -69,8 +69,21 @@ function removeItemFromPantry(id) {
 		.catch((err) => console.log('Error removing item from pantry!', err));
 }
 
+function getIngredients() {
+	return new Promise(function(resolve, reject) {
+		pool.query('SELECT * FROM ingredients;', (error, results) => {
+			if (error) {
+				console.error(error);
+			}
+			resolve(results.rows);
+		});
+	});
+}
+
+
 module.exports = {
 	getPantries,
 	addItemToPantry,
-	removeItemFromPantry
+	removeItemFromPantry,
+	getIngredients
 };
