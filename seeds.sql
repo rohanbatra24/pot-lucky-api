@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS pantries CASCADE;
 DROP TABLE IF EXISTS allergies CASCADE;
 DROP TABLE IF EXISTS saved_recipes CASCADE;
+DROP TABLE IF EXISTS ingredients;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -41,7 +42,6 @@ COPY ingredients
 FROM '/vagrant/final/pot-lucky-api/top_1k_ingredients.csv'
 DELIMITER ';';
 
-ALTER SEQUENCE ingredients_id_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE pantries_id_seq RESTART WITH 1;
 ALTER SEQUENCE allergies_id_seq RESTART WITH 1;
