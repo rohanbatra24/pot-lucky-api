@@ -18,6 +18,17 @@ app.use(bodyparser.json());
 // 	next();
 // });
 
+app.get('/api/ingredients/all', (req, res) => {
+	pantries
+		.getIngredients()
+		.then(response => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+})
+
 app.get('/api/pantries/all', (req, res) => {
 	pantries
 		.getPantries(1)
