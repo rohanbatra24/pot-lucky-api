@@ -2,13 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 8080;
-const bodyparser = require("body-parser");
-
+const bodyparser = require('body-parser');
 
 const users = require('./users');
 const pantries = require('./pantries');
 
-app.use(cors()) ;
+app.use(cors());
 app.use(express.json());
 app.use(bodyparser.json());
 
@@ -29,7 +28,7 @@ app.get('/api/pantries/all', (req, res) => {
 			res.status(500).send(error);
 		});
 });
- 
+
 app.post('/api/pantries/add', (req, res) => {
 	pantries
 		.addItemToPantry(req.body)
@@ -41,16 +40,18 @@ app.post('/api/pantries/add', (req, res) => {
 		});
 });
 
-// app.delete('/merchants/:id', (req, res) => {
-// 	merchant_model
-// 		.deleteMerchant(req.params.id)
-// 		.then((response) => {
-// 			res.status(200).send(response);
-// 		})
-// 		.catch((error) => {
-// 			res.status(500).send(error);
-// 		});
-// });
+app.post('/api/pantries/delete', (req, res) => {
+	console.log('req body======', req.body.id);
+
+	pantries
+		.removeItemFromPantry(req.body.id)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
 app.listen(port, () => {
 	console.log(`App running on port ${port}.`);
 });
