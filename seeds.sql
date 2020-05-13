@@ -32,6 +32,12 @@ CREATE TABLE saved_recipes (
   created_at DATE 
 );
 
+-- CREATE TABLE ingredients (
+--   id SERIAL PRIMARY KEY NOT NULL,
+--   spoonacular_id INTEGER UNIQUE NOT NULL,
+--   name VARCHAR(255) NOT NULL
+-- );
+
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE pantries_id_seq RESTART WITH 1;
 ALTER SEQUENCE allergies_id_seq RESTART WITH 1;
