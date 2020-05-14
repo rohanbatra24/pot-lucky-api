@@ -40,6 +40,7 @@ CREATE TABLE ingredients (
 
 COPY ingredients
 FROM '/vagrant/final/pot-lucky-api/top_1k_ingredients.csv'
+-- FROM '/Users/derek/Desktop/lighthouse/final/pot-lucky-api/top_1k_ingredients.csv'
 DELIMITER ';';
 
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
