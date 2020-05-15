@@ -7,9 +7,9 @@ const pool = new Pool({
 	port     : 5432
 });
 
-const getUsers = () => {
+const getUserByEmail = (email) => {
 	return new Promise(function(resolve, reject) {
-		pool.query('SELECT * FROM users;', (error, results) => {
+		pool.query('SELECT * FROM users WHERE email=$1;', [ email ], (error, results) => {
 			if (error) {
 				reject(error);
 			}
@@ -19,5 +19,5 @@ const getUsers = () => {
 };
 
 module.exports = {
-	getUsers
+	getUserByEmail
 };
