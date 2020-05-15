@@ -34,7 +34,6 @@ const getPantries = (id) => {
 
 // Add a new item to the pantry
 function addItemToPantry(item) {
-	console.log('item ===> ', item);
 	const params = [ item.id, item.name, item.quantity, item.unit, item.expiry ];
 
 	const queryString = `
@@ -55,7 +54,6 @@ function addItemToPantry(item) {
 // Remove an item from the pantry
 function removeItemFromPantry(id) {
 	const params = [ id ];
-	console.log('id from backend===', typeof id);
 
 	const queryString = `
     DELETE
