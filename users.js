@@ -18,6 +18,23 @@ const getUserByEmail = (email) => {
 	});
 };
 
+const addUserToDb = (email) => {
+	const params = [ email ];
+	const queryString = `
+    INSERT INTO users
+    (email)
+		VALUES ($1)
+		RETURNING *;
+  `;
+
+	return pool
+		.query(queryString, params)
+		.then((res) => {
+			return res.rows[0];
+		})
+		.catch((err) => console.log('Error adding user to database!', err));
+}
 module.exports = {
-	getUserByEmail
+	getUserByEmail,
+	addUserToDb
 };
