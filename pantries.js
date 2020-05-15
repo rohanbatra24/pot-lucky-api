@@ -21,9 +21,9 @@ const pool = new Pool({
 
 // };
 
-const getPantries = () => {
+const getPantries = (id) => {
 	return new Promise(function(resolve, reject) {
-		pool.query('SELECT * FROM pantries WHERE user_id = 1;', (error, results) => {
+		pool.query('SELECT * FROM pantries WHERE user_id = $1;', [ id ], (error, results) => {
 			if (error) {
 				console.error(error);
 			}
