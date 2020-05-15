@@ -71,7 +71,7 @@ function removeItemFromPantry(id) {
 
 function getIngredients() {
 	return new Promise(function(resolve, reject) {
-		pool.query('SELECT name FROM ingredients;', (error, results) => {
+		pool.query('SELECT * FROM ingredients;', (error, results) => {
 			if (error) {
 				console.error(error);
 			}
@@ -79,7 +79,6 @@ function getIngredients() {
 		});
 	});
 }
-
 
 module.exports = {
 	getPantries,
