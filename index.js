@@ -64,8 +64,18 @@ app.post('/api/pantries/add', (req, res) => {
 		});
 });
 
+app.post('/api/users/add', (req, res) => {
+	users
+		.addUserToDb(req.body.email)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
+
 app.post('/api/pantries/delete', (req, res) => {
-	console.log('req body======', req.body.id);
 
 	pantries
 		.removeItemFromPantry(req.body.id)
