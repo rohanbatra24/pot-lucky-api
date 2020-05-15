@@ -35,7 +35,7 @@ const getPantries = (id) => {
 // Add a new item to the pantry
 function addItemToPantry(item) {
 	console.log('item ===> ', item);
-	const params = [ 1, item.name, item.quantity, item.unit, item.expiry ];
+	const params = [ item.id, item.name, item.quantity, item.unit, item.expiry ];
 
 	const queryString = `
     INSERT INTO pantries
