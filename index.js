@@ -41,9 +41,10 @@ app.get('/api/ingredients/all', (req, res) => {
 		});
 });
 
-app.get('/api/pantries/all', (req, res) => {
+app.get('/api/pantries/:id', (req, res) => {
+	const id = req.params.id;
 	pantries
-		.getPantries(1)
+		.getPantries(id)
 		.then((response) => {
 			res.status(200).send(response);
 		})
