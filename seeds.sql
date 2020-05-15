@@ -7,9 +7,7 @@ DROP TABLE IF EXISTS ingredients;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  email VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE pantries (
@@ -49,10 +47,10 @@ ALTER SEQUENCE allergies_id_seq RESTART WITH 1;
 ALTER SEQUENCE saved_recipes_id_seq RESTART WITH 1;
 
 
-INSERT INTO users (name, email, password)
-VALUES ('user_a', 'a@gmail.com','password'),
-       ('user_b', 'b@gmail.com', 'password'),
-       ('user_c', 'c@gmail.com', 'password');
+INSERT INTO users (email)
+VALUES ('a@gmail.com'),
+       ('b@gmail.com'),
+       ('c@gmail.com');
 
 INSERT INTO pantries (user_id, name, quantity, unit, expiry)
 VALUES (1, 'banana', 3.432, 'pieces', Now() + INTERVAL '1' HOUR),
