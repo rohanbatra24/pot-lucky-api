@@ -9,7 +9,12 @@ const pool = new Pool({
 
 const getUserByEmail = (email) => {
 	return new Promise(function(resolve, reject) {
-		pool.query('SELECT * FROM users WHERE email=$1;', [ email ], (error, results) => {
+		const queryString = `
+			SELECT users.id AS "id", email, name AS "allergy" 
+			FROM users 
+			JOIN allergies ON user_id = users.id 
+			WHERE email = $1;`
+		pool.query(queryString, [ email ], (error, results) => {
 			if (error) {
 				reject(error);
 			}
@@ -34,7 +39,45 @@ const addUserToDb = (email) => {
 		})
 		.catch((err) => console.log('Error adding user to database!', err));
 }
+
+// Remove an allergy from the user's account
+function removeAllergy(id, ingredient) {
+	const params = [ id, ingredient ];
+
+	const queryString = `
+    DELETE
+    FROM allergies
+		WHERE user_id = $1
+		AND name = $2;
+  `;
+
+	return pool
+		.query(queryString, params)
+		.then((res) => res)
+		.catch((err) => console.log('Error removing item from pantry!', err));
+}
+
+// Add a new allergy to the user's account
+function addAllergy(id, item) {
+	const params = [ id, item ];
+
+	const queryString = `
+    INSERT INTO allergies
+    (user_id, name)
+		VALUES ($1, $2)
+		RETURNING *;
+  `;
+
+	return pool
+		.query(queryString, params)
+		.then((res) => {
+			return res.rows[0];
+		})
+		.catch((err) => console.log('Error adding item to pantry!', err));
+}
 module.exports = {
 	getUserByEmail,
-	addUserToDb
+	addUserToDb,
+	removeAllergy,
+	addAllergy
 };
