@@ -86,6 +86,32 @@ app.post('/api/pantries/delete', (req, res) => {
 			res.status(500).send(error);
 		});
 });
+
+
+app.post('/api/users/:id/allergies/delete', (req, res) => {
+	const id = req.params.id
+	users
+		.removeAllergy(id, req.body.ingredient)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
+
+app.post('/api/users/:id/allergies/add', (req, res) => {
+	const id = req.params.id
+	users
+		.addAllergy(id, req.body.allergy)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
+
 app.listen(port, () => {
-	console.log(`App running on port ${port}.`);
+	console.log(`Pot Lucky API running on port ${port}.`);
 });
