@@ -27,8 +27,9 @@ CREATE TABLE allergies (
 
 CREATE TABLE saved_recipes (
   id SERIAL PRIMARY KEY NOT NULL,
-  recipe_id INTEGER NOT NULL,
-  created_at DATE 
+  url TEXT NOT NULL,
+  image TEXT NOT NULL,
+  title VARCHAR(255) NOT NULL 
 );
 
 CREATE TABLE ingredients (
