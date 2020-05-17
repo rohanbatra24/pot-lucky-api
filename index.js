@@ -87,7 +87,6 @@ app.post('/api/pantries/delete', (req, res) => {
 });
 
 app.post('/api/pantries/:id/edit', (req, res) => {
-	console.log('EDIT===== REQ BODY: ', req.body);
 	const user_id = req.params.id;
 	pantries
 		.editPantryItem(user_id, req.body)
@@ -124,7 +123,6 @@ app.post('/api/users/:id/allergies/add', (req, res) => {
 });
 
 app.post('/api/users/:id/savedRecipes/add', (req, res) => {
-	console.log('req.body from backend===', req.body);
 	const id = req.params.id;
 	users
 		.addSavedRecipe(id, req.body.newSavedRecipe)
