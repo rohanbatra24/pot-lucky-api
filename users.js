@@ -10,10 +10,10 @@ const pool = new Pool({
 const getUserByEmail = (email) => {
 	return new Promise(function(resolve, reject) {
 		const queryString = `
-		SELECT users.id AS "id", email, name AS "allergy",url,title,image
+		SELECT users.id AS "id", email, name AS "allergy", url, title, image
 		FROM users
-		JOIN allergies ON users.id = allergies.user_id
-		JOIN saved_recipes ON users.id = saved_recipes.user_id
+		FULL JOIN allergies ON users.id = allergies.user_id
+		FULL JOIN saved_recipes ON users.id = saved_recipes.user_id
 		WHERE email = $1;`;
 		pool.query(queryString, [ email ], (error, results) => {
 			if (error) {
