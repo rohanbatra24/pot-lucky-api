@@ -51,6 +51,24 @@ function addItemToPantry(item) {
 		.catch((err) => console.log('Error adding item to pantry!', err));
 }
 
+// Edit an item in the pantry
+function editPantryItem(user_id, values) {
+	const { itemId, unit, quantity, expiry } = values;
+	const queryParams = [ unit, quantity, expiry, itemId ]
+	const queryString = `
+		UPDATE pantries
+		SET unit=$1, quantity=$2, expiry=$3
+		WHERE id=$4;
+	`
+	return pool
+		.query(queryString, queryParams)
+		.then((res) => {
+			return res.rows[0];
+		})
+		.catch((err) => console.log('Error adding item to pantry!', err));
+}
+
+
 // Remove an item from the pantry
 function removeItemFromPantry(id) {
 	const params = [ id ];
@@ -82,5 +100,6 @@ module.exports = {
 	getPantries,
 	addItemToPantry,
 	removeItemFromPantry,
-	getIngredients
+	getIngredients,
+	editPantryItem
 };
