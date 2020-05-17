@@ -86,6 +86,19 @@ app.post('/api/pantries/delete', (req, res) => {
 		});
 });
 
+app.post('/api/pantries/:id/edit', (req, res) => {
+	console.log('EDIT===== REQ BODY: ', req.body);
+	const user_id = req.params.id;
+	pantries
+		.editPantryItem(user_id, req.body)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
+
 app.post('/api/users/:id/allergies/delete', (req, res) => {
 	const id = req.params.id;
 	users
