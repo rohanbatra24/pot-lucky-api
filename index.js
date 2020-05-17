@@ -76,7 +76,6 @@ app.post('/api/users/add', (req, res) => {
 });
 
 app.post('/api/pantries/delete', (req, res) => {
-
 	pantries
 		.removeItemFromPantry(req.body.id)
 		.then((response) => {
@@ -87,9 +86,8 @@ app.post('/api/pantries/delete', (req, res) => {
 		});
 });
 
-
 app.post('/api/users/:id/allergies/delete', (req, res) => {
-	const id = req.params.id
+	const id = req.params.id;
 	users
 		.removeAllergy(id, req.body.ingredient)
 		.then((response) => {
@@ -101,9 +99,33 @@ app.post('/api/users/:id/allergies/delete', (req, res) => {
 });
 
 app.post('/api/users/:id/allergies/add', (req, res) => {
-	const id = req.params.id
+	const id = req.params.id;
 	users
 		.addAllergy(id, req.body.allergy)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
+
+app.post('/api/users/:id/savedRecipes/add', (req, res) => {
+	console.log('req.body from backend===', req.body);
+	const id = req.params.id;
+	users
+		.addSavedRecipe(id, req.body.newSavedRecipe)
+		.then((response) => {
+			res.status(200).send(response);
+		})
+		.catch((error) => {
+			res.status(500).send(error);
+		});
+});
+
+app.post('/api/users/:id/savedRecipes/delete', (req, res) => {
+	users
+		.removeSavedRecipe(req.body.url)
 		.then((response) => {
 			res.status(200).send(response);
 		})

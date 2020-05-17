@@ -10,10 +10,11 @@ const pool = new Pool({
 const getUserByEmail = (email) => {
 	return new Promise(function(resolve, reject) {
 		const queryString = `
-			SELECT users.id AS "id", email, name AS "allergy" 
-			FROM users 
-			JOIN allergies ON user_id = users.id 
-			WHERE email = $1;`
+		SELECT users.id AS "id", email, name AS "allergy",url,title,image
+		FROM users
+		JOIN allergies ON users.id = allergies.user_id
+		JOIN saved_recipes ON users.id = saved_recipes.user_id
+		WHERE email = $1;`;
 		pool.query(queryString, [ email ], (error, results) => {
 			if (error) {
 				reject(error);
@@ -38,7 +39,7 @@ const addUserToDb = (email) => {
 			return res.rows[0];
 		})
 		.catch((err) => console.log('Error adding user to database!', err));
-}
+};
 
 // Remove an allergy from the user's account
 function removeAllergy(id, ingredient) {
@@ -75,9 +76,45 @@ function addAllergy(id, item) {
 		})
 		.catch((err) => console.log('Error adding item to pantry!', err));
 }
+
+function addSavedRecipe(id, item) {
+	const params = [ id, item.url, item.image, item.title ];
+
+	const queryString = `
+    INSERT INTO saved_recipes
+    (user_id, url,image,title)
+		VALUES ($1, $2,$3,$4)
+		RETURNING *;
+  `;
+
+	return pool
+		.query(queryString, params)
+		.then((res) => {
+			return res.rows[0];
+		})
+		.catch((err) => console.log('Error adding item to saved recipe!', err));
+}
+
+function removeSavedRecipe(url) {
+	const params = [ url ];
+
+	const queryString = `
+    DELETE
+    FROM saved_recipes
+		WHERE url = $1;
+  `;
+
+	return pool
+		.query(queryString, params)
+		.then((res) => res)
+		.catch((err) => console.log('Error removing item from pantry!', err));
+}
+
 module.exports = {
 	getUserByEmail,
 	addUserToDb,
 	removeAllergy,
-	addAllergy
+	addAllergy,
+	addSavedRecipe,
+	removeSavedRecipe
 };
