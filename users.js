@@ -1,120 +1,120 @@
-const Pool = require('pg').Pool;
+const Pool = require("pg").Pool;
 const pool = new Pool({
-	user     : 'final',
-	host     : 'localhost',
-	database : 'potlucky',
-	password : 'root',
-	port     : 5432
+  user: "kzbkjuzbftqria",
+  host: "ec2-34-193-232-231.compute-1.amazonaws.com",
+  database: "dbc6j8d1fjjao1",
+  password: "02912f2dde074205f278bdb29aa21621e8b04f787e61ae497ae90f507f736cf1",
+  port: 5432,
 });
 
 const getUserByEmail = (email) => {
-	return new Promise(function(resolve, reject) {
-		const queryString = `
+  return new Promise(function (resolve, reject) {
+    const queryString = `
 		SELECT users.id AS "id", email, name AS "allergy", url, title, image
 		FROM users
 		FULL JOIN allergies ON users.id = allergies.user_id
 		FULL JOIN saved_recipes ON users.id = saved_recipes.user_id
 		WHERE email = $1;`;
-		pool.query(queryString, [ email ], (error, results) => {
-			if (error) {
-				reject(error);
-			}
-			resolve(results.rows);
-		});
-	});
+    pool.query(queryString, [email], (error, results) => {
+      if (error) {
+        reject(error);
+      }
+      resolve(results.rows);
+    });
+  });
 };
 
 const addUserToDb = (email) => {
-	const params = [ email ];
-	const queryString = `
+  const params = [email];
+  const queryString = `
     INSERT INTO users
     (email)
 		VALUES ($1)
 		RETURNING *;
   `;
 
-	return pool
-		.query(queryString, params)
-		.then((res) => {
-			return res.rows[0];
-		})
-		.catch((err) => console.log('Error adding user to database!', err));
+  return pool
+    .query(queryString, params)
+    .then((res) => {
+      return res.rows[0];
+    })
+    .catch((err) => console.log("Error adding user to database!", err));
 };
 
 // Remove an allergy from the user's account
 function removeAllergy(id, ingredient) {
-	const params = [ id, ingredient ];
+  const params = [id, ingredient];
 
-	const queryString = `
+  const queryString = `
     DELETE
     FROM allergies
 		WHERE user_id = $1
 		AND name = $2;
   `;
 
-	return pool
-		.query(queryString, params)
-		.then((res) => res)
-		.catch((err) => console.log('Error removing item from pantry!', err));
+  return pool
+    .query(queryString, params)
+    .then((res) => res)
+    .catch((err) => console.log("Error removing item from pantry!", err));
 }
 
 // Add a new allergy to the user's account
 function addAllergy(id, item) {
-	const params = [ id, item ];
+  const params = [id, item];
 
-	const queryString = `
+  const queryString = `
     INSERT INTO allergies
     (user_id, name)
 		VALUES ($1, $2)
 		RETURNING *;
   `;
 
-	return pool
-		.query(queryString, params)
-		.then((res) => {
-			return res.rows[0];
-		})
-		.catch((err) => console.log('Error adding item to pantry!', err));
+  return pool
+    .query(queryString, params)
+    .then((res) => {
+      return res.rows[0];
+    })
+    .catch((err) => console.log("Error adding item to pantry!", err));
 }
 
 function addSavedRecipe(id, item) {
-	const params = [ id, item.url, item.image, item.title ];
+  const params = [id, item.url, item.image, item.title];
 
-	const queryString = `
+  const queryString = `
     INSERT INTO saved_recipes
     (user_id, url,image,title)
 		VALUES ($1, $2,$3,$4)
 		RETURNING *;
   `;
 
-	return pool
-		.query(queryString, params)
-		.then((res) => {
-			return res.rows[0];
-		})
-		.catch((err) => console.log('Error adding item to saved recipe!', err));
+  return pool
+    .query(queryString, params)
+    .then((res) => {
+      return res.rows[0];
+    })
+    .catch((err) => console.log("Error adding item to saved recipe!", err));
 }
 
 function removeSavedRecipe(url) {
-	const params = [ url ];
+  const params = [url];
 
-	const queryString = `
+  const queryString = `
     DELETE
     FROM saved_recipes
 		WHERE url = $1;
   `;
 
-	return pool
-		.query(queryString, params)
-		.then((res) => res)
-		.catch((err) => console.log('Error removing item from pantry!', err));
+  return pool
+    .query(queryString, params)
+    .then((res) => res)
+    .catch((err) => console.log("Error removing item from pantry!", err));
 }
 
 module.exports = {
-	getUserByEmail,
-	addUserToDb,
-	removeAllergy,
-	addAllergy,
-	addSavedRecipe,
-	removeSavedRecipe
+  getUserByEmail,
+  addUserToDb,
+  removeAllergy,
+  addAllergy,
+  addSavedRecipe,
+  removeSavedRecipe,
 };
