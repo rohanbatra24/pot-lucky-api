@@ -4,7 +4,6 @@ const pool = new Pool({
   host: "ec2-34-193-232-231.compute-1.amazonaws.com",
   database: "dbc6j8d1fjjao1",
   password: "02912f2dde074205f278bdb29aa21621e8b04f787e61ae497ae90f507f736cf1",
-  port: 5432,
 });
 
 const getUserByEmail = (email) => {
