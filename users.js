@@ -1,9 +1,9 @@
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  user: "kzbkjuzbftqria",
-  host: "ec2-34-193-232-231.compute-1.amazonaws.com",
-  database: "dbc6j8d1fjjao1",
-  password: "02912f2dde074205f278bdb29aa21621e8b04f787e61ae497ae90f507f736cf1",
+  user: "",
+  host: "",
+  database: "",
+  password: "",
 });
 
 const getUserByEmail = (email) => {
